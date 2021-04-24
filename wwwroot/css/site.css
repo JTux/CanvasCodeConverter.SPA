@@ -66,14 +66,17 @@ a, .btn-link {
     box-shadow: none;
 }
 
-.ln {
-    width: 100%;
+.toggle-btn {
     height: 2.5rem; 
     line-height: 2.5rem; 
     display: flex; 
     align-items: center; 
     justify-content: center; 
     box-shadow: none !important;
+}
+
+.ln {
+    width: 100%;
     transition: width .35s;
 }
 .ln-active {
@@ -82,7 +85,6 @@ a, .btn-link {
 }
 .ln-input {
     width: 0%;
-    border: none;
     padding: 0;
     border-radius: 0 .2rem .2rem 0;
     transition: width .35s;

@@ -1,5 +1,6 @@
 <li class="px-3 py-1 d-flex" style="font-size: .9rem;">
-    <button class="btn btn-sm @(IsActive ? ActiveClass : InactiveClass) @ButtonClasses" @onclick="ToggleIsActive">
+    <button class="btn btn-sm toggle-btn @(IsActive ? ActiveClass : InactiveClass) @ButtonClasses"
+        @onclick="ToggleIsActive">
         @Label
     </button>
     <input class="@InputClasses text-center" type="number" min="1" value="@startingNumber"
@@ -37,16 +38,13 @@
     [Parameter]
     public EventCallback<int> StartingLineNumberChanged { get; set; }
 
-    private void ToggleLineInput()
-    {
-        ButtonClasses = IsActive ? "ln ln-active" : "ln";
-        InputClasses = IsActive ? "ln-input ln-input-active" : "ln-input";
-    }
-
     private Task ToggleIsActive()
     {
         IsActive = !IsActive;
-        ToggleLineInput();
+
+        ButtonClasses = IsActive ? "ln ln-active" : "ln";
+        InputClasses = IsActive ? "ln-input ln-input-active" : "ln-input";
+
         return IsActiveChanged.InvokeAsync(IsActive);
     }
 }

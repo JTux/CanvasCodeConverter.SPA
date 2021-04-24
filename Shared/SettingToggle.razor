@@ -1,7 +1,5 @@
 <li class="px-3 py-1" style="font-size: .9rem;">
-    <button class="btn btn-sm @(IsActive ? ActiveClass : InactiveClass) w-100"
-        style="height: 2.5rem; line-height: 2.5rem; display: flex; align-items: center; justify-content: center; box-shadow: none !important;"
-        @onclick="ToggleIsActive">
+    <button class="btn btn-sm toggle-btn @(IsActive ? ActiveClass : InactiveClass) w-100" @onclick="ToggleIsActive">
         @(IsActive && !string.IsNullOrWhiteSpace(ActiveLabel) ? ActiveLabel : Label)
     </button>
 </li>
