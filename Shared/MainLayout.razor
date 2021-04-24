@@ -3,7 +3,7 @@
 <div class="page">
     <div class="sidebar">
         <NavMenu>
-            <SettingToggle @bind-IsActive="IsCodeTag" Label="Pre Tag" ActiveLabel="Code Tag" ActiveClass="btn-info" />
+            <CodeTagToggle @bind-IsActive="IsCodeTag" Label="Pre Tag" ActiveLabel="Code Tag" />
             <SettingToggle @bind-IsActive="IsTerminal" Label="Terminal Style" ActiveClass="btn-terminal" />
             <SettingToggle @bind-IsActive="IsCopyable" Label="Copyable Code" ActiveClass="btn-warning" />
             <LineNumberToggle @bind-IsActive="HasLineNumbers" @bind-StartingLineNumber="StartingLineNumber"

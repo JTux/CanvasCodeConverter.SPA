@@ -73,6 +73,8 @@ a, .btn-link {
     align-items: center; 
     justify-content: center; 
     box-shadow: none !important;
+    border-radius: 0;
+    transition: .35s;
 }
 
 .ln {
@@ -81,14 +83,34 @@ a, .btn-link {
 }
 .ln-active {
     width: 70%;
-    border-radius: .2rem 0 0 .2rem;
 }
 .ln-input {
     width: 0%;
     padding: 0;
-    border-radius: 0 .2rem .2rem 0;
     transition: width .35s;
+    outline: none;
 }
 .ln-input-active {
     width: 30%;
+}
+
+/* .code-btn {
+    overflow: hidden;
+    transition: width .35s;
+    white-space: nowrap;
+}
+.code-btn-hidden {
+    width: 0% !important;
+    padding: 0;
+    border-radius: none;
+} */
+
+.code-btn {
+    overflow: hidden;
+    white-space: nowrap;
+}
+.code-btn-hidden {
+    width: 0% !important;
+    padding: 0;
+    border-radius: none;
 }
