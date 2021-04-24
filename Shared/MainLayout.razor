@@ -2,16 +2,33 @@
 
 <div class="page">
     <div class="sidebar">
-        <NavMenu />
+        <NavMenu>
+            <SettingToggle @bind-IsActive="IsCodeTag" Label="Pre Tag" ActiveLabel="Code Tag" ActiveClass="btn-info" />
+            <SettingToggle @bind-IsActive="IsTerminal" Label="Terminal Style" ActiveClass="btn-terminal" />
+            <SettingToggle @bind-IsActive="IsCopyable" Label="Copyable Code" ActiveClass="btn-warning" />
+        </NavMenu>
     </div>
 
     <div class="main">
-        <div class="top-row px-4">
+        @*
+            <div class="top-row px-4">
             <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
+            </div>
+        *@
 
         <div class="content px-4">
+            <div>
+                <p>IsCodeTag: @IsCodeTag</p>
+                <p>IsTerminal: @IsTerminal</p>
+                <p>IsCopyable: @IsCopyable</p>
+            </div>
             @Body
         </div>
     </div>
 </div>
+
+@code {
+    private bool IsCodeTag = false;
+    private bool IsTerminal = false;
+    private bool IsCopyable = false;
+}

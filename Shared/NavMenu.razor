@@ -5,13 +5,9 @@
     </button>
 </div>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </li>
+<div class="@NavMenuCssClass">
+    <ul class="nav flex-column mt-3">
+        @ChildContent
     </ul>
 </div>
 
@@ -19,6 +15,9 @@
     private bool collapseNavMenu = true;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
 
     private void ToggleNavMenu()
     {

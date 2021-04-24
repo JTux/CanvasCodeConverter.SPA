@@ -1,0 +1,34 @@
+<li class="px-3 py-1" style="font-size: .9rem;">
+    <button class="btn btn-sm @(IsActive ? ActiveClass : InactiveClass) w-100"
+        style="height: 2.5rem; line-height: 2.5rem; display: flex; align-items: center; justify-content: center; box-shadow: none !important;"
+        @onclick="ToggleIsActive">
+        @(IsActive && !string.IsNullOrWhiteSpace(ActiveLabel) ? ActiveLabel : Label)
+    </button>
+</li>
+
+@code {
+
+    [Parameter]
+    public string Label { get; set; }
+
+    [Parameter]
+    public string ActiveLabel { get; set; }
+
+    [Parameter]
+    public bool IsActive { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> IsActiveChanged { get; set; }
+
+    [Parameter]
+    public string ActiveClass { get; set; } = "btn-success";
+
+    [Parameter]
+    public string InactiveClass { get; set; } = "btn-primary";
+
+    private Task ToggleIsActive()
+    {
+        IsActive = !IsActive;
+        return IsActiveChanged.InvokeAsync(IsActive);
+    }
+}
