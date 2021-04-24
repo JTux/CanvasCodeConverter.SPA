@@ -6,6 +6,8 @@
             <SettingToggle @bind-IsActive="IsCodeTag" Label="Pre Tag" ActiveLabel="Code Tag" ActiveClass="btn-info" />
             <SettingToggle @bind-IsActive="IsTerminal" Label="Terminal Style" ActiveClass="btn-terminal" />
             <SettingToggle @bind-IsActive="IsCopyable" Label="Copyable Code" ActiveClass="btn-warning" />
+            <LineNumberToggle @bind-IsActive="HasLineNumbers" @bind-StartingLineNumber="StartingLineNumber"
+                Label="Line Numbers" />
         </NavMenu>
     </div>
 
@@ -21,6 +23,8 @@
                 <p>IsCodeTag: @IsCodeTag</p>
                 <p>IsTerminal: @IsTerminal</p>
                 <p>IsCopyable: @IsCopyable</p>
+                <p>HasLineNumbers: @HasLineNumbers</p>
+                <p>StartingLineNumber: @StartingLineNumber</p>
             </div>
             @Body
         </div>
@@ -31,4 +35,6 @@
     private bool IsCodeTag = false;
     private bool IsTerminal = false;
     private bool IsCopyable = false;
+    private bool HasLineNumbers = false;
+    private int StartingLineNumber = 1;
 }

@@ -1,0 +1,52 @@
+<li class="px-3 py-1 d-flex" style="font-size: .9rem;">
+    <button class="btn btn-sm @(IsActive ? ActiveClass : InactiveClass) @ButtonClasses" @onclick="ToggleIsActive">
+        @Label
+    </button>
+    <input class="@InputClasses text-center" type="number" min="1" value="@startingNumber"
+        @onchange="(ChangeEventArgs e) => StartingLineNumberChanged.InvokeAsync(int.Parse(e.Value.ToString()))">
+</li>
+
+@code {
+
+    private string ButtonClasses = "ln";
+    private string InputClasses = "ln-input";
+
+    [Parameter]
+    public string Label { get; set; }
+
+    [Parameter]
+    public bool IsActive { get; set; }
+
+    private int startingNumber;
+    [Parameter]
+    public int StartingLineNumber
+    {
+        get => startingNumber;
+        set => startingNumber = value >= 1 ? value : 1;
+    }
+
+    [Parameter]
+    public string ActiveClass { get; set; } = "btn-success";
+
+    [Parameter]
+    public string InactiveClass { get; set; } = "btn-primary";
+
+    [Parameter]
+    public EventCallback<bool> IsActiveChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<int> StartingLineNumberChanged { get; set; }
+
+    private void ToggleLineInput()
+    {
+        ButtonClasses = IsActive ? "ln ln-active" : "ln";
+        InputClasses = IsActive ? "ln-input ln-input-active" : "ln-input";
+    }
+
+    private Task ToggleIsActive()
+    {
+        IsActive = !IsActive;
+        ToggleLineInput();
+        return IsActiveChanged.InvokeAsync(IsActive);
+    }
+}
