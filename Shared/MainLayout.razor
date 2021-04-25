@@ -22,22 +22,22 @@
         </NavMenu>
     </div>
 
-    <div class="main">
-        @*
-            <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-            </div>
-        *@
+    <div class="main d-flex flex-column">
 
-        <div class="content px-4">
-            <div>
-                <p>IsCodeTag: @IsCodeTag</p>
-                <p>IsTerminal: @IsTerminal</p>
-                <p>IsCopyable: @IsCopyable</p>
-                <p>HasLineNumbers: @HasLineNumbers</p>
-                <p>StartingLineNumber: @StartingLineNumber</p>
-            </div>
-            @Body
+        <div class="top-row px-4">
+            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+        </div>
+
+
+        <div class="content px-4 flex-grow-1">
+            <CodeInputField IsCodeTag="IsCodeTag" IsTerminal="IsTerminal" IsCopyable="IsCopyable"
+                HasLineNumbers="HasLineNumbers" StartingLineNumber="StartingLineNumber" />
+            @* @Body *@
+        </div>
+
+
+        <div class="px-4 pt-2 text-center" style="font-size: .8rem; color: #888;">
+            &copy; @DateTime.Now.Year ya boi JTux
         </div>
     </div>
 </div>

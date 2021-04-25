@@ -2,6 +2,7 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #eee;
 }
 
 a, .btn-link {
@@ -86,7 +87,7 @@ pre {
 
 .btn, input {
     border: none;
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 .toggle-btn {
@@ -117,17 +118,6 @@ pre {
     width: 30%;
 }
 
-/* .code-btn {
-    overflow: hidden;
-    transition: width .35s;
-    white-space: nowrap;
-}
-.code-btn-hidden {
-    width: 0% !important;
-    padding: 0;
-    border-radius: none;
-} */
-
 .code-btn {
     overflow: hidden;
     white-space: nowrap;
@@ -141,8 +131,24 @@ pre {
 .canvas-example-container {
     background-color: white;
     padding: .5rem;
+    margin-bottom: 1rem;
 }
 
 .canvas-example-container pre {
     margin: 0;
+}
+
+.box-header {
+    text-align: center;
+}
+.code-box {
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 80vh;
+    flex-grow: 1;
+    border: solid 1px #000;
+    background-color: #fff;
+    outline: none;
+    overflow: auto;
+    resize: none;
 }
