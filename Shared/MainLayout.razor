@@ -3,11 +3,22 @@
 <div class="page">
     <div class="sidebar">
         <NavMenu>
+            <li>
+                <h5 class="text-center m-0 text-white">Settings</h5>
+            </li>
             <CodeTagToggle @bind-IsActive="IsCodeTag" Label="Pre Tag" ActiveLabel="Code Tag" />
             <SettingToggle @bind-IsActive="IsTerminal" Label="Terminal Style" ActiveClass="btn-terminal" />
             <SettingToggle @bind-IsActive="IsCopyable" Label="Copyable Code" ActiveClass="btn-warning" />
             <LineNumberToggle @bind-IsActive="HasLineNumbers" @bind-StartingLineNumber="StartingLineNumber"
                 Label="Line Numbers" />
+            <li>
+                <hr class="border-light w-75" />
+            </li>
+            <li>
+                <h5 class="text-center m-0 text-white">Preview</h5>
+            </li>
+            <ExampleCode IsCodeTag="IsCodeTag" IsTerminal="IsTerminal" IsCopyable="IsCopyable"
+                HasLineNumbers="HasLineNumbers" StartingLineNumber="StartingLineNumber" />
         </NavMenu>
     </div>
 

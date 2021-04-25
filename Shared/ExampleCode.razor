@@ -1,0 +1,64 @@
+<div class="canvas-example-container mx-3 mt-0 border border-dark">
+    @if (IsCodeTag)
+    {
+        <code class="@Classes">
+            @for(int i = 0; i < lines.Count(); i++)
+            {
+                var line = lines[i];
+                <span>@(HasLineNumbers ? (StartingLineNumber + i).ToString() : "") @line</span>
+                <br/>
+            }
+        </code>
+    }
+    else
+    {
+        <pre class="@Classes">@ExampleText</pre>
+    }
+</div>
+
+@code {
+
+    private string exampleText = "This is an example\n\nIt will update if\nany of the settings\nare changed.";
+    private string[] lines = "This is an example\n\nIt will update if\nany of the settings\nare changed.".Split('\n').ToArray();
+    
+    public string ExampleText
+    {
+        get
+        {
+            return $"{(HasLineNumbers && StartingLineNumber < 10 ? " " : "")}{(HasLineNumbers ? $"{StartingLineNumber}  " : "")}This is an example\n" +
+            $"{(HasLineNumbers && StartingLineNumber + 1 < 10 ? " " : "")}{(HasLineNumbers ? $"{StartingLineNumber + 1}  " : "")}\n" +
+            $"{(HasLineNumbers && StartingLineNumber + 2 < 10 ? " " : "")}{(HasLineNumbers ? $"{StartingLineNumber + 2}  " : "")}It will update if\n" +
+            $"{(HasLineNumbers && StartingLineNumber + 3 < 10 ? " " : "")}{(HasLineNumbers ? $"{StartingLineNumber + 3}  " : "")}any of the settings\n" +
+            $"{(HasLineNumbers && StartingLineNumber + 4 < 10 ? " " : "")}{(HasLineNumbers ? $"{StartingLineNumber + 4}  " : "")}are changed.";
+        }
+    }
+
+    public string Classes 
+    {
+        get
+        {
+            List<string> classes = new List<string>();
+            if(IsTerminal)
+                classes.Add("terminal");
+            if(IsCopyable)
+                classes.Add("copyable");
+
+            return string.Join(' ', classes);
+        }
+    }
+
+    [Parameter]
+    public bool IsCodeTag { get; set; }
+
+    [Parameter]
+    public bool IsTerminal { get; set; }
+
+    [Parameter]
+    public bool IsCopyable { get; set; }
+
+    [Parameter]
+    public bool HasLineNumbers { get; set; }
+
+    [Parameter]
+    public int StartingLineNumber { get; set; }
+}
