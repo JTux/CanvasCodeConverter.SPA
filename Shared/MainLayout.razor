@@ -19,15 +19,22 @@
             </li>
             <ExampleCode IsCodeTag="IsCodeTag" IsTerminal="IsTerminal" IsCopyable="IsCopyable"
                 HasLineNumbers="HasLineNumbers" StartingLineNumber="StartingLineNumber" />
+            <li>
+                <hr class="border-light w-75" />
+            </li>
+            <li class="px-3 py-1" style="font-size: .9rem;">
+                <button class="btn btn-sm toggle-btn btn-danger w-100" @onclick="ResetSettings">
+                    Reset Settings
+                </button>
+            </li>
         </NavMenu>
     </div>
 
     <div class="main d-flex flex-column">
 
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+        <div class="top-row px-4 font-italic">
+            This Canvas Code Converter is used to convert code snippets to Canvas LMS compatible HTML.
         </div>
-
 
         <div class="content px-4 flex-grow-1">
             <CodeInputField IsCodeTag="IsCodeTag" IsTerminal="IsTerminal" IsCopyable="IsCopyable"
@@ -48,4 +55,13 @@
     private bool IsCopyable = false;
     private bool HasLineNumbers = false;
     private int StartingLineNumber = 1;
+
+    private void ResetSettings()
+    {
+        IsCodeTag = false;
+        IsTerminal = false;
+        IsCopyable = false;
+        HasLineNumbers = false;
+        StartingLineNumber = 1;
+    }
 }

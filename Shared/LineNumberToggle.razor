@@ -9,8 +9,8 @@
 
 @code {
 
-    private string ButtonClasses = "ln";
-    private string InputClasses = "ln-input";
+    private string ButtonClasses => IsActive ? "ln ln-active" : "ln";
+    private string InputClasses => IsActive ? "ln-input ln-input-active" : "ln-input";
 
     [Parameter]
     public string Label { get; set; }
@@ -42,8 +42,8 @@
     {
         IsActive = !IsActive;
 
-        ButtonClasses = IsActive ? "ln ln-active" : "ln";
-        InputClasses = IsActive ? "ln-input ln-input-active" : "ln-input";
+        @* ButtonClasses = IsActive ? "ln ln-active" : "ln"; *@
+        @* InputClasses = IsActive ? "ln-input ln-input-active" : "ln-input"; *@
 
         return IsActiveChanged.InvokeAsync(IsActive);
     }

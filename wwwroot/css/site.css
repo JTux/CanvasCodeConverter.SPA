@@ -142,6 +142,7 @@ pre {
     text-align: center;
 }
 .code-box {
+    font-family: monospace;
     min-width: 100%;
     max-width: 100%;
     min-height: 80vh;
