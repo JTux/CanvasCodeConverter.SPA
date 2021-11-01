@@ -1,0 +1,24 @@
+﻿<li class="px-3 py-1 d-flex" style="font-size: .9rem; overflow: hidden;">
+    <select value="@Value" @onchange="async args => await OnValueChanged(args)" class="btn btn-sm toggle-btn btn-primary w-100">
+        @foreach (var option in Options)
+        {
+            <option value="@option.Value">@option.Label</option>
+        }
+    </select>
+</li>
+
+@code {
+    [Parameter]
+    public string Value { get; set; }
+
+    [Parameter]
+    public EventCallback<string> ValueChanged { get; set; }
+
+    [Parameter]
+    public SelectItem[] Options { get; set; }
+
+    private async Task OnValueChanged(ChangeEventArgs args)
+    {
+        await ValueChanged.InvokeAsync(args.Value.ToString());
+    }
+}

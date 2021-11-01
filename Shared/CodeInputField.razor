@@ -7,7 +7,6 @@
             <textarea class="code-box" @bind="Input" @bind:event="oninput"></textarea>
             <div class="d-flex">
                 <button class="btn btn-danger rounded-0 col" @onclick="Clear">Clear</button>
-                @* <button class="btn btn-primary rounded-0 col" @onclick="Convert">Convert</button> *@
             </div>
         </div>
         <div class="col-lg-6 row flex-column">
@@ -16,17 +15,9 @@
             @if (Input?.Length > 0)
             {
                 <div class="code-box p-2" style="min-height: unset; max-height: 40vh; flex-grow: unset; border-top: none;">
-                    @if (IsCodeTag)
-                    {
-                        <code class="@Classes">@PreviewOutput</code>
-                    }
-                    else
-                    {
-                        <pre class="@Classes">@PreviewOutput</pre>
-                    }
+                    @PreviewOutput
                 </div>
             }
-            @* <textarea readonly class="w-100 h-100" style="resize: none; outline: none;">@Input</textarea> *@
 
             <button class="btn btn-primary rounded-0" @onclick="CopyOutput">Copy to Clipboard</button>
         </div>
@@ -34,6 +25,13 @@
 </div>
 
 @code {
+
+    private string Input { get; set; }
+
+
+    [Parameter]
+    public string Language { get; set; }
+
     [Parameter]
     public bool IsCodeTag { get; set; }
 
@@ -44,13 +42,66 @@
     public bool IsCopyable { get; set; }
 
     [Parameter]
+    public bool MatchBraces { get; set; }
+
+    [Parameter]
     public bool HasLineNumbers { get; set; }
 
     [Parameter]
     public int StartingLineNumber { get; set; }
 
-    private string Input { get; set; }
-    @* public string Output { get; set; } *@
+
+
+    [Parameter]
+    public bool HasHighlight { get; set; }
+
+    public string HighlightedLines { get; set; }
+
+
+
+    public string PreTagClasses
+    {
+        get
+        {
+            List<string> classes = new();
+
+            if (IsTerminal)
+                classes.Add("terminal");
+
+            if (IsCopyable)
+                classes.Add("copyable");
+
+            if (HasLineNumbers)
+                classes.Add("line-numbers");
+
+            return string.Join(' ', classes);
+        }
+    }
+
+    public string CodeTagClasses
+    {
+        get
+        {
+            List<string> classes = new();
+
+            classes.Add(Language);
+
+            if (IsCodeTag)
+            {
+                if (IsTerminal)
+                    classes.Add("terminal");
+
+            }
+            if (IsCopyable)
+                classes.Add("copyable");
+
+            if (MatchBraces)
+                classes.Add("match-braces");
+
+            return string.Join(' ', classes);
+        }
+    }
+
     public string Output
     {
         get
@@ -58,167 +109,45 @@
             if (string.IsNullOrWhiteSpace(Input))
                 return "";
 
-            string tag = IsCodeTag ? "code" : "pre";
-
-            var classList = new List<string>();
-
-            if (IsTerminal)
-                classList.Add("terminal");
-            if (IsCopyable)
-                classList.Add("copyable");
-
-            var classes = string.Join(" ", classList);
-            var classAttribute = string.IsNullOrWhiteSpace(classes) ? "" : $" class=\"{classes}\"";
-
             var content = Input.Replace("<", "&lt;");
             content = content.Replace(">", "&gt;");
-            content = content.Replace("\n", "<br/>");
-            //content = content.Replace(" ", "&nbsp;");
-            //content = content.Replace("&nbsp;&nbsp;", "&emsp;");
 
-            List<string> newLines = new List<string>();
-            if (HasLineNumbers)
-            {
-                var lines = content.Split("<br/>", StringSplitOptions.None).ToList();
-
-                var maxLineNumberDigitCount = (StartingLineNumber + lines.Count - 1).ToString().Length;
-
-                int line = StartingLineNumber;
-                for (int i = 0; i < lines.Count; i++)
-                {
-                    string newLine = "";
-
-                    int lineNumberDigitCount = line.ToString().Length;
-                    if (maxLineNumberDigitCount - lineNumberDigitCount > 0)
-                        newLine += new string(' ', maxLineNumberDigitCount - lineNumberDigitCount);
-
-                    newLine += $"{line.ToString()}    ";
-                    newLine += lines[i];
-
-                    newLines.Add(newLine);
-
-                    line++;
-                }
-
-                content = string.Join("<br/>", newLines);
-            }
-
-            return $"<{tag}{classAttribute}>{content}</{tag}>";
-        }
-    }
-    public string Classes
-    {
-        get
-        {
-            List<string> classes = new List<string>();
-            if (IsTerminal)
-                classes.Add("terminal");
-            if (IsCopyable)
-                classes.Add("copyable");
-
-            return string.Join(' ', classes);
+            return IsCodeTag ? GetCodeTag(content) : GetPreTag(content);
         }
     }
 
-    public string PreviewOutput
+    private string GetPreTag(string body)
     {
-        get
-        {
-            if (string.IsNullOrWhiteSpace(Input))
-                return "";
+        string preTagData = "";
 
-            string content = Input;
+        if (string.IsNullOrEmpty(PreTagClasses) == false)
+            preTagData += $" class=\"{PreTagClasses}\"";
 
-            List<string> newLines = new List<string>();
-            if (HasLineNumbers)
-            {
-                var lines = Input.Split("\n").ToList();
-                @* var lines = Input.Split("<br/>", StringSplitOptions.None).ToList(); *@
-
-                var maxLineNumberDigitCount = (StartingLineNumber + lines.Count - 1).ToString().Length;
-
-                int line = StartingLineNumber;
-                for (int i = 0; i < lines.Count; i++)
-                {
-                    string newLine = "";
-
-                    int lineNumberDigitCount = line.ToString().Length;
-                    if (maxLineNumberDigitCount - lineNumberDigitCount > 0)
-                        newLine += new string(' ', maxLineNumberDigitCount - lineNumberDigitCount);
-
-                    newLine += $"{line.ToString()}    ";
-                    newLine += lines[i];
-
-                    newLines.Add(newLine);
-
-                    line++;
-                }
-
-                content = string.Join("\n", newLines);
-            }
-
-            return content;
-        }
-    }
-
-    private void SetOutput()
-    {
-        if (string.IsNullOrWhiteSpace(Input))
-            return;
-
-        string tag = IsCodeTag ? "code" : "pre";
-
-        var classList = new List<string>();
-
-        if (IsTerminal)
-            classList.Add("terminal");
-        if (IsCopyable)
-            classList.Add("copyable");
-
-        var classes = string.Join(" ", classList);
-        var classAttribute = string.IsNullOrWhiteSpace(classes) ? "" : $" class=\"{classes}\"";
-
-        var content = Input.Replace("<", "&lt;");
-        content = content.Replace(">", "&gt;");
-        content = content.Replace("\n", "<br/>");
-        //content = content.Replace(" ", "&nbsp;");
-        //content = content.Replace("&nbsp;&nbsp;", "&emsp;");
-
-        List<string> newLines = new List<string>();
         if (HasLineNumbers)
-        {
-            var lines = content.Split("<br/>", StringSplitOptions.None).ToList();
+            preTagData += $" data-start=\"{StartingLineNumber}\"";
 
-            var maxLineNumberDigitCount = (StartingLineNumber + lines.Count - 1).ToString().Length;
+        if (HasHighlight)
+            preTagData += $" data-line=\"{HighlightedLines}\"";
 
-            int line = StartingLineNumber;
-            for (int i = 0; i < lines.Count; i++)
-            {
-                string newLine = "";
-
-                int lineNumberDigitCount = line.ToString().Length;
-                if (maxLineNumberDigitCount - lineNumberDigitCount > 0)
-                    newLine += new string(' ', maxLineNumberDigitCount - lineNumberDigitCount);
-
-                newLine += $"{line.ToString()} ";
-                newLine += lines[i];
-
-                newLines.Add(newLine);
-
-                line++;
-            }
-
-            content = string.Join("<br/>", newLines);
-        }
-
-        @* Output = $"<{tag}{classAttribute}>{content}</{tag}>"; *@
+        return $"<pre{preTagData}><code class=\"{CodeTagClasses}\">{body}</code></pre>";
     }
 
-    private void Convert() => SetOutput();
+    private string GetCodeTag(string body)
+    {
+        return $"<code class=\"{CodeTagClasses}\">{body}</code>";
+    }
+
+    private MarkupString PreviewOutput => new MarkupString(Output);
+
     private async void CopyOutput() => await jsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", Output);
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await jsRuntime.InvokeVoidAsync("window.Prism.highlightAll");
+    }
+
     private void Clear()
     {
         Input = "";
-        @* Output = ""; *@
     }
 }

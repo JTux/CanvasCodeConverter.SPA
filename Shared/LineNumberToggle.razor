@@ -9,6 +9,7 @@
 
 @code {
 
+    private int startingNumber;
     private string ButtonClasses => IsActive ? "ln ln-active" : "ln";
     private string InputClasses => IsActive ? "ln-input ln-input-active" : "ln-input";
 
@@ -18,7 +19,6 @@
     [Parameter]
     public bool IsActive { get; set; }
 
-    private int startingNumber;
     [Parameter]
     public int StartingLineNumber
     {
@@ -41,9 +41,6 @@
     private Task ToggleIsActive()
     {
         IsActive = !IsActive;
-
-        @* ButtonClasses = IsActive ? "ln ln-active" : "ln"; *@
-        @* InputClasses = IsActive ? "ln-input ln-input-active" : "ln-input"; *@
 
         return IsActiveChanged.InvokeAsync(IsActive);
     }

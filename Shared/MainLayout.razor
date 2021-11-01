@@ -6,19 +6,19 @@
             <li>
                 <h5 class="text-center m-0 text-white">Settings</h5>
             </li>
+            <SelectToggle @bind-Value="Language" Options="Languages"></SelectToggle>
+
             <CodeTagToggle @bind-IsActive="IsCodeTag" Label="Pre Tag" ActiveLabel="Code Tag" />
-            <SettingToggle @bind-IsActive="IsTerminal" Label="Terminal Style" ActiveClass="btn-terminal" />
+
+            @*<SettingToggle @bind-IsActive="IsTerminal" Label="Terminal Style" ActiveClass="btn-terminal" />*@
             <SettingToggle @bind-IsActive="IsCopyable" Label="Copyable Code" ActiveClass="btn-warning" />
-            <LineNumberToggle @bind-IsActive="HasLineNumbers" @bind-StartingLineNumber="StartingLineNumber"
-                Label="Line Numbers" />
-            <li>
-                <hr class="border-light w-75" />
-            </li>
-            <li>
-                <h5 class="text-center m-0 text-white">Preview</h5>
-            </li>
-            <ExampleCode IsCodeTag="IsCodeTag" IsTerminal="IsTerminal" IsCopyable="IsCopyable"
-                HasLineNumbers="HasLineNumbers" StartingLineNumber="StartingLineNumber" />
+            <SettingToggle @bind-IsActive="MatchBraces" Label="Match Braces" ActiveClass="btn-secondary" />
+
+            @if (IsCodeTag == false)
+            {
+                <LineNumberToggle @bind-IsActive="HasLineNumbers" @bind-StartingLineNumber="StartingLineNumber" Label="Line Numbers" />
+            }
+
             <li>
                 <hr class="border-light w-75" />
             </li>
@@ -38,10 +38,8 @@
 
         <div class="content px-4 flex-grow-1">
             <CodeInputField IsCodeTag="IsCodeTag" IsTerminal="IsTerminal" IsCopyable="IsCopyable"
-                HasLineNumbers="HasLineNumbers" StartingLineNumber="StartingLineNumber" />
-            @* @Body *@
+                            HasLineNumbers="HasLineNumbers" StartingLineNumber="StartingLineNumber" MatchBraces="MatchBraces" Language="@Language" />
         </div>
-
 
         <div class="px-4 pt-2 text-center" style="font-size: .8rem; color: #888;">
             &copy; @DateTime.Now.Year ya boi JTux
@@ -51,16 +49,40 @@
 
 @code {
     private bool IsCodeTag = false;
-    private bool IsTerminal = false;
+    //private bool IsTerminal = false;
+
+    public bool IsTerminal => Language == "terminal-text";
     private bool IsCopyable = false;
     private bool HasLineNumbers = false;
     private int StartingLineNumber = 1;
 
+    private string Language = "language-text";
+
+    private bool MatchBraces = false;
+
+    //private bool HasHighlight = false;
+
+    private SelectItem[] Languages =
+    {
+        new("Plain Text", "language-text"),
+        new("Terminal", "terminal-text"),
+        new("C#", "language-csharp"),
+        new("CSS", "language-css"),
+        new("HTML", "language-html"),
+        new("JavaScript", "language-javascript"),
+        new("JSX", "language-jsx"),
+        new("Markdown", "language-markdown"),
+        new("Razor", "language-cshtml"),
+        new("SQL", "language-sql"),
+        new("TSX", "language-tsx"),
+        new("TypeScript", "language-typescript")
+    };
+
     private void ResetSettings()
     {
         IsCodeTag = false;
-        IsTerminal = false;
         IsCopyable = false;
+        MatchBraces = false;
         HasLineNumbers = false;
         StartingLineNumber = 1;
     }
