@@ -14,7 +14,7 @@
             <SettingToggle @bind-IsActive="IsCopyable" Label="Copyable Code" ActiveClass="btn-warning" />
             <SettingToggle @bind-IsActive="MatchBraces" Label="Match Braces" ActiveClass="btn-secondary" />
 
-            @if (IsCodeTag == false)
+            @if (IsCodeTag == false && !IsTerminal)
             {
                 <LineNumberToggle @bind-IsActive="HasLineNumbers" @bind-StartingLineNumber="StartingLineNumber" Label="Line Numbers" />
             }
